@@ -73,7 +73,7 @@ public class ThridPeraonShooterController : MonoBehaviour
         {
             aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
             animator.SetTrigger("attack");
-            //animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
             starterAssetsInputs.attack = false;
         }
     }
