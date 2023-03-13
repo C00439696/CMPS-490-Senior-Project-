@@ -1,3 +1,4 @@
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -12,8 +13,10 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
-        public bool aim;
+        public bool aimGun;
+        public bool aimAxe;
         public bool shoot;
+        public bool attack;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -46,14 +49,22 @@ namespace StarterAssets
 			SprintInput(value.isPressed);
 		}
 
-        public void OnAim(InputValue value)
+        public void OnAimGun(InputValue value)
         {
-            AimInput(value.isPressed);
+            AimGunInput(value.isPressed);
         }
 
+        public void OnAimAxe(InputValue value)
+        {
+            AimAxeInput(value.isPressed);
+        }
         public void OnShoot(InputValue value)
         {
             ShootInput(value.isPressed);
+        }
+        public void OnAttack(InputValue value)
+        {
+            AttackInput(value.isPressed);
         }
 #endif
 
@@ -78,14 +89,22 @@ namespace StarterAssets
 			sprint = newSprintState;
 		}
 
-        public void AimInput(bool newAimState)
+        public void AimGunInput(bool newAimState)
         {
-           aim = newAimState;
+           aimGun = newAimState;
+        }
+        public void AimAxeInput(bool newAimState)
+        {
+            aimAxe = newAimState;
         }
 
         public void ShootInput(bool newShootState)
         {
             shoot = newShootState;
+        }
+        public void AttackInput(bool newShootState)
+        {
+            attack = newShootState;
         }
 
         private void OnApplicationFocus(bool hasFocus)

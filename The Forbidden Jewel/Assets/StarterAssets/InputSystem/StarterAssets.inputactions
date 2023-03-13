@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
+                    "name": "aimGun",
                     "type": "PassThrough",
                     "id": "cef12d6f-2302-4daa-8adb-a112d8a4c313",
                     "expectedControlType": "",
@@ -51,9 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "shoot",
                     "type": "Button",
                     "id": "8a5800e1-f36c-4ca5-bc5c-64f716b43a6d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "attack",
+                    "type": "Button",
+                    "id": "96fefc2e-bec2-47a1-8aa0-8fcad1fbfd3f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -244,7 +253,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Aim",
+                    "action": "aimGun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -255,7 +264,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Aim",
+                    "action": "aimGun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -266,7 +275,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Shoot",
+                    "action": "shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -277,7 +286,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Shoot",
+                    "action": "shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3848b16-176a-4caa-856c-6bf7baef7749",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56a3426d-533b-42ed-ac82-d29d14c99e21",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

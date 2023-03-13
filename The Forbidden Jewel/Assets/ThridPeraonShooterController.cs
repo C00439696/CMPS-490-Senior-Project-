@@ -14,12 +14,14 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] private Transform axeTipPosition;
 
 
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Animator animator;
+    private Vector3 aimDir;
 
     private void Awake()
     {
@@ -39,7 +41,7 @@ public class ThridPeraonShooterController : MonoBehaviour
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
         }
-        if (starterAssetsInputs.aim)
+        if (starterAssetsInputs.aimGun && WeaponSwitching.selectedWeapon == 0)
         {
             aimVirtualCamera.gameObject.SetActive(true); ;
             thirdPersonController.SetSensitivity(aimSensitivty);
@@ -51,6 +53,13 @@ public class ThridPeraonShooterController : MonoBehaviour
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0)
+            {
+                aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.zero));
+                starterAssetsInputs.shoot = false;
+            }
         }
         else
         {
@@ -60,12 +69,12 @@ public class ThridPeraonShooterController : MonoBehaviour
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
 
-
-        if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.attack && WeaponSwitching.selectedWeapon == 1)
         {
-            Vector3 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-            Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-            starterAssetsInputs.shoot = false; 
+            aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
+            animator.SetTrigger("attack");
+            //animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            starterAssetsInputs.attack = false;
         }
     }
 }
