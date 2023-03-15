@@ -15,7 +15,7 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private Transform axeTipPosition;
-
+    [SerializeField] private GameObject bullet;
 
 
     private ThirdPersonController thirdPersonController;
@@ -57,7 +57,8 @@ public class ThridPeraonShooterController : MonoBehaviour
             if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0)
             {
                 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                Instantiate(pfBulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.zero));
+                GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);                
+                projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
                 starterAssetsInputs.shoot = false;
             }
         }

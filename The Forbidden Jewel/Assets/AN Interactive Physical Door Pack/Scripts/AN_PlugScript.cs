@@ -37,8 +37,9 @@ public class AN_PlugScript : MonoBehaviour
             DoorObject.isOpened = true;
         }
         else
-        {
-            DoorObject.isOpened = false;
+        {   
+            //commented out for now
+            //DoorObject.isOpened = false;
         }
     }
 
