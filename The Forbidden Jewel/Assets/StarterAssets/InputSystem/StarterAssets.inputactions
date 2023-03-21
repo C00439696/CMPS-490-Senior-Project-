@@ -293,7 +293,7 @@
                 {
                     "name": "",
                     "id": "f3848b16-176a-4caa-856c-6bf7baef7749",
-                    "path": "<Mouse>/middleButton",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",

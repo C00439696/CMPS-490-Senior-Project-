@@ -16,11 +16,13 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private Transform axeTipPosition;
     [SerializeField] private GameObject bullet;
-
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private LayerMask enemyLayers;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
-    private Animator animator;
     private Vector3 aimDir;
 
     private void Awake()
@@ -67,15 +69,27 @@ public class ThridPeraonShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivty);
             thirdPersonController.SetRotateOnMove(true);
-            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+            //animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
 
         if (starterAssetsInputs.attack && WeaponSwitching.selectedWeapon == 1)
         {
             aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
             animator.SetTrigger("attack");
-            //animator.SetLayerWeight(2, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+            /*Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
+
+            foreach (Collider enemy in hitEnemies) {
+                enemy.GetComponent<Enemy>().TakeDamage(40);
+            }*/
+
             starterAssetsInputs.attack = false;
         }
     }
+
+    /*void OnDrawGizmosSelected()
+    {
+        if (attackRange == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }*/
 }

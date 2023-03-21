@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class AxeAttack : MonoBehaviour
 {
+    [SerializeField] private float attackRange = 0.5f;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private Transform attackPoint;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<BulletTarget>() != null)
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange, enemyLayers);
+
+        foreach (Collider enemy in hitEnemies)
         {
-            // Hit Target
-            Debug.Log("Hit Target");
+            enemy.GetComponent<Enemy>().TakeDamage(40);
         }
-        else
-        {
-            // Hit something else
-            Debug.Log("Didn't hit Target");
-        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackRange == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
