@@ -24,6 +24,7 @@ public class ThridPeraonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Vector3 aimDir;
+    public static int key = 0;
 
     private void Awake()
     {
@@ -69,7 +70,7 @@ public class ThridPeraonShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivty);
             thirdPersonController.SetRotateOnMove(true);
-            //animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
 
         if (starterAssetsInputs.attack && WeaponSwitching.selectedWeapon == 1)
@@ -84,6 +85,16 @@ public class ThridPeraonShooterController : MonoBehaviour
 
             starterAssetsInputs.attack = false;
         }
+    }
+
+    public int getKey()
+    {
+        return key;
+    }
+
+    public void setKey(int k)
+    {
+        key = k;
     }
 
     /*void OnDrawGizmosSelected()

@@ -14,14 +14,7 @@ public class AxeAttack : MonoBehaviour
 
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(40);
+            enemy.GetComponent<EnemyAi>().TakeDamage(50);
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (attackRange == null)
-            return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

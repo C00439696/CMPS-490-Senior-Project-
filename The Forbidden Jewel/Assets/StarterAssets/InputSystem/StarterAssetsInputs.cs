@@ -17,6 +17,7 @@ namespace StarterAssets
         public bool aimAxe;
         public bool shoot;
         public bool attack;
+		public bool openDoor;
 
         [Header("Movement Settings")]
 		public bool analogMovement;
@@ -66,6 +67,10 @@ namespace StarterAssets
         {
             AttackInput(value.isPressed);
         }
+        public void OnOpenDoor(InputValue value)
+        {
+            OpenDoorInput(value.isPressed);
+        }
 #endif
 
 
@@ -102,9 +107,14 @@ namespace StarterAssets
         {
             shoot = newShootState;
         }
-        public void AttackInput(bool newShootState)
+        public void AttackInput(bool newAttackState)
         {
-            attack = newShootState;
+            attack = newAttackState;
+        }
+
+        public void OpenDoorInput(bool newAttackState)
+        {
+            openDoor = newAttackState;
         }
 
         private void OnApplicationFocus(bool hasFocus)

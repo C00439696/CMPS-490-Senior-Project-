@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour
 {
+    [SerializeField] private int damage = 25;  
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<BulletTarget>() != null)
+        if (other.tag == "Enemy")
         {
             // Hit Target
             Debug.Log("Hit Target");
+            other.GetComponent<EnemyAi>().TakeDamage(damage);
         }
         else
         {
