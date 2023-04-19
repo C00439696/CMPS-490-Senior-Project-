@@ -15,7 +15,7 @@ public class OpenDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (ThridPeraonShooterController.key == 1 && enemieskilled == 5)
+        if (ThridPeraonShooterController.key == 1 && enemieskilled == 1)
         {
             if (other.tag == "Player")
             {

@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyAi : MonoBehaviour
 {
     public NavMeshAgent agent;
+    public Slider healthBar;
 
     Animator anim;
 
     public Transform player;
+    public GameObject target;
 
     public int health = 100;
 
@@ -26,11 +29,14 @@ public class EnemyAi : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    private UIManager uIManager;
+
     private void Awake()
     {
         player = GameObject.Find("PlayerArmature").transform;
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     private void Update()
@@ -41,6 +47,8 @@ public class EnemyAi : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
+
+        healthBar.value = health;
 
     }
 
@@ -95,6 +103,7 @@ public class EnemyAi : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isAttacking", true);
+            target.GetComponent<ThridPeraonShooterController>().TakeDamage(10);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -113,6 +122,7 @@ public class EnemyAi : MonoBehaviour
         if (health <= 0)
         {
             OpenDoor.enemieskilled += 1;
+            uIManager.UpdateEnemies(OpenDoor.enemieskilled);
             Destroy(gameObject);
         }
     }

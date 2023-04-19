@@ -20,21 +20,32 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 0.5f;
     [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private int currentAmmo;
+    [SerializeField] private int maxAmmo = 50;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Vector3 aimDir;
     public static int key = 0;
 
+    public ProgressBar Pb;
+    public int health = 100;
+
+    private UIManager uIManager;
+
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
+
+        currentAmmo = maxAmmo;
+        uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     private void Update()
     {
+        Pb.BarValue = health;
         Vector3 mouseWorldPosition = Vector3.zero;
 
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2F);
@@ -57,11 +68,13 @@ public class ThridPeraonShooterController : MonoBehaviour
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
 
-            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0)
+            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0 && currentAmmo > 0 && aimVirtualCamera.gameObject.activeInHierarchy)
             {
                 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);                
                 projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
+                currentAmmo--;
+                uIManager.UpdateAmmo(currentAmmo);
                 starterAssetsInputs.shoot = false;
             }
         }
@@ -97,10 +110,13 @@ public class ThridPeraonShooterController : MonoBehaviour
         key = k;
     }
 
-    /*void OnDrawGizmosSelected()
+    public void TakeDamage(int damage)
     {
-        if (attackRange == null)
-            return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }*/
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Debug.Log("Player is Dead!");
+        }
+    }
 }
