@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject Enemies;
     [SerializeField] private GameObject Leave;
 
-    public static int numOfEnemies;
+    public static int numOfEnemies = 1;
 
     private void Update()
     {
@@ -35,7 +35,8 @@ public class UIManager : MonoBehaviour
         {
             GetKey.SetActive(true);
         }
-        else
+        
+        if(ThridPeraonShooterController.key == 1)
         {
             GetKey.SetActive(false);
             Enemies.SetActive(true);

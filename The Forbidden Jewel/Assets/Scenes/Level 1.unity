@@ -946,7 +946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.2823186
+      value: -4.622
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -954,23 +954,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.766453
+      value: -17.378
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.13052641
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9914449
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -978,7 +978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -195
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 8459163052174217637, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1397,7 +1397,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Ammo: Knife '
+  m_Text: 'Ammo: Axe'
 --- !u!222 &198047608
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2317,11 +2317,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   maxAmmo: 12
+  isAiming: 0
   shoots: {fileID: 712660819}
   outOFBullets: {fileID: 1751309581}
   axeSwing: {fileID: 672314806}
   Pb: {fileID: 1832837000}
-  health: 100
   gameOver: {fileID: 852546420}
 --- !u!1 &456653002 stripped
 GameObject:
@@ -4787,8 +4787,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 409.00003, y: 219.00003}
-  m_SizeDelta: {x: 1344.6575, y: 720}
+  m_AnchoredPosition: {x: 1.5048828, y: 0}
+  m_SizeDelta: {x: -3.0098, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &875346626
 PrefabInstance:
@@ -5943,7 +5943,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -9752,8 +9752,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 409.00003, y: 219.00003}
-  m_SizeDelta: {x: 1344.6575, y: 720}
+  m_AnchoredPosition: {x: 1.5100708, y: 0}
+  m_SizeDelta: {x: -3.02, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1951826168
 MonoBehaviour:

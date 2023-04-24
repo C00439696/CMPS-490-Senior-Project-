@@ -15,12 +15,17 @@ public class CollectAmmo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (other.gameObject.layer == 6)
         {
             if (ThridPeraonShooterController.currentAmmo < 12)
             {
                 ThridPeraonShooterController.currentAmmo += 5;
-                uIManager.UpdateAmmo(ThridPeraonShooterController.currentAmmo);
+                if (ThridPeraonShooterController.currentAmmo > 12)
+                {
+                    ThridPeraonShooterController.currentAmmo = 12;
+                }
+                    uIManager.UpdateAmmo(ThridPeraonShooterController.currentAmmo);
                 if (!isReloading)
                 {
                     moreAmmo.Play();

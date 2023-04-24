@@ -25,9 +25,9 @@ public class ThridPeraonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Vector3 aimDir;
-    private bool isAiming;
+    public bool isAiming = false;
     public static int key = 0;
-    public static int currentAmmo;
+    public static int currentAmmo = 12;
 
     [SerializeField] private AudioSource shoots;
     [SerializeField] private AudioSource outOFBullets;
@@ -36,9 +36,13 @@ public class ThridPeraonShooterController : MonoBehaviour
     private bool isShooting = false;
     private bool isOutOfBullets = false;
     private bool isAxeSwinging = false;
+    private bool toShoot = false;
+    private bool alreadyAttacked;
 
     public ProgressBar Pb;
-    public int health = 100;
+    public static int health = 100;
+
+    private float timeBetweenAttacks = 1.5f;
 
     private UIManager uIManager;
     public GameObject gameOver;
@@ -48,9 +52,8 @@ public class ThridPeraonShooterController : MonoBehaviour
         thirdPersonController = GetComponent<ThirdPersonController>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         animator = GetComponent<Animator>();
-
-        currentAmmo = maxAmmo;
         uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        uIManager.UpdateAmmo(currentAmmo);
     }
 
     private void Update()
@@ -69,6 +72,7 @@ public class ThridPeraonShooterController : MonoBehaviour
         {
             aimVirtualCamera.gameObject.SetActive(true);
             isAiming = true;
+            toShoot = true;
             thirdPersonController.SetSensitivity(aimSensitivty);
             thirdPersonController.SetRotateOnMove(false);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
@@ -79,46 +83,50 @@ public class ThridPeraonShooterController : MonoBehaviour
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
 
-            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0 && currentAmmo > 0 && isAiming && !PauseMenu.isPaused && !GetKeyL3.isSolving)
+            if (toShoot)
             {
-                aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);
-                if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0 && currentAmmo > 0 && !PauseMenu.isPaused && !GetKeyL3.isSolving && isAiming)
                 {
-                    shoots.Play();
-                    isShooting = true;
-                }
-                else
-                {
-                    shoots.Stop();
+                    aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                    GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);
+                    if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                    {
+                        shoots.Play();
+                        isShooting = true;
+                    }
+                    else
+                    {
+                        shoots.Stop();
+                        isShooting = false;
+                    }
                     isShooting = false;
-                }
-                isShooting = false;
 
-                projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
-                currentAmmo--;
-                uIManager.UpdateAmmo(currentAmmo);
-                starterAssetsInputs.shoot = false;
-            }
-            else
-            {
-                if (!isShooting && !isOutOfBullets && !isAxeSwinging)
-                {
-                    outOFBullets.Play();
-                    isOutOfBullets = true;
+                    projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
+                    currentAmmo--;
+                    uIManager.UpdateAmmo(currentAmmo);
+                    starterAssetsInputs.shoot = false;
                 }
-                else
+                else if (currentAmmo < 0)
                 {
-                    outOFBullets.Stop();
+                    if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                    {
+                        outOFBullets.Play();
+                        isOutOfBullets = true;
+                    }
+                    else
+                    {
+                        outOFBullets.Stop();
+                        isOutOfBullets = false;
+                    }
                     isOutOfBullets = false;
                 }
-                isOutOfBullets = false;
-            }
+            } 
         }
         else
         {
             aimVirtualCamera.gameObject.SetActive(false);
             isAiming = false;
+            toShoot = false;
             thirdPersonController.SetSensitivity(normalSensitivty);
             thirdPersonController.SetRotateOnMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
@@ -126,27 +134,43 @@ public class ThridPeraonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.attack && WeaponSwitching.selectedWeapon == 1)
         {
-            aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
-            animator.SetTrigger("attack");
-            if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+            if (!alreadyAttacked)
             {
-                axeSwing.Play();
-                isAxeSwinging = true;
-            }
-            else
-            {
-                axeSwing.Stop();
-                isOutOfBullets = false;
-            }
-            isOutOfBullets = false;
+                aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
+                animator.SetTrigger("attack");
+                if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                {
+                    axeSwing.Play();
+                    isAxeSwinging = true;
+                }
+                else
+                {
+                    axeSwing.Stop();
+                    isAxeSwinging = false;
+                }
+                isAxeSwinging = false;
 
-            starterAssetsInputs.attack = false;
+                starterAssetsInputs.attack = false;
+                alreadyAttacked = true;
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
+            
         }
 
         if (currentAmmo > 12)
         {
             currentAmmo = 12;
         }
+
+        if (health > 100)
+        {
+            health = 100;
+        }
+    }
+
+    private void ResetAttack()
+    {
+        alreadyAttacked = false;
     }
 
     public int getKey()

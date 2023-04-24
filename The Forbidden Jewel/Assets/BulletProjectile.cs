@@ -11,7 +11,14 @@ public class BulletProjectile : MonoBehaviour
         {
             // Hit Target
             Debug.Log("Hit Target");
-            other.GetComponent<EnemyAi>().TakeDamage(damage);
+            if (EnemyAITroll.trollAwake)
+            {
+                other.GetComponent<EnemyAITroll>().TakeDamage(damage);
+            }
+            else
+            {
+                other.GetComponent<EnemyAi>().TakeDamage(damage);
+            }
         }
         else
         {

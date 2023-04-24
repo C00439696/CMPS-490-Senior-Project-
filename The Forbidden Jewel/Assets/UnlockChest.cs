@@ -26,7 +26,7 @@ public class UnlockChest : MonoBehaviour
             inputField.text = "";
             attempts--;
             textDisplay.text = "This was created for CMPS ____: Senior Project?\nFill in the blank to unlock the chest?\nYou have " + attempts + " attempts left or you will be eliminated!";
-            if (attempts < 0)
+            if (attempts == 0)
             {
                 solver.GetComponent<ThridPeraonShooterController>().TakeDamage(100);
 

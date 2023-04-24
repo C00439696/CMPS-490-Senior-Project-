@@ -11,7 +11,6 @@ public class GameOver : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         gameOver.SetActive(false);
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Level 1");
+        Application.Quit();
     }
 }

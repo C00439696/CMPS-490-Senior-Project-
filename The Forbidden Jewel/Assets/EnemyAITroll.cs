@@ -29,6 +29,8 @@ public class EnemyAITroll : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public static bool trollAwake = false;
+
     private UIManager uIManager;
 
     private void Awake()
@@ -37,6 +39,7 @@ public class EnemyAITroll : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        trollAwake = true;
     }
 
     private void Update()

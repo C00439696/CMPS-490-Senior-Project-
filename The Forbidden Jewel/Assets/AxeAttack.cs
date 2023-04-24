@@ -14,7 +14,14 @@ public class AxeAttack : MonoBehaviour
 
         foreach (Collider enemy in hitEnemies)
         {
-            enemy.GetComponent<EnemyAi>().TakeDamage(50);
+            if (EnemyAITroll.trollAwake)
+            {
+                enemy.GetComponent<EnemyAITroll>().TakeDamage(50);
+            }
+            else
+            {
+                enemy.GetComponent<EnemyAi>().TakeDamage(50);
+            }
         }
     }
 }
