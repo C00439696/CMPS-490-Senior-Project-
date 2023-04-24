@@ -15,13 +15,15 @@ public class OpenDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (ThridPeraonShooterController.key == 1 && enemieskilled == 1)
+        if (ThridPeraonShooterController.key == 1 && enemieskilled == UIManager.numOfEnemies)
         {
             if (other.tag == "Player")
             {
                 switchWithoutKey.SetActive(false);
                 switchWithKey.SetActive(true);
-                SceneManager.LoadScene("Level 2");
+                ThridPeraonShooterController.key = 0;
+                enemieskilled = 0;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
 
         }

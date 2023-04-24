@@ -15,11 +15,11 @@ public class WeaponSwitching : MonoBehaviour
     {
         int previousSelectedWeapon = selectedWeapon;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !GetKeyL3.isSolving)
         {
             selectedWeapon = 0;
         }
-        if(Input.GetKeyDown(KeyCode.Alpha2))
+        if(Input.GetKeyDown(KeyCode.Alpha2) && !GetKeyL3.isSolving)
         {
             selectedWeapon = 1;
         }

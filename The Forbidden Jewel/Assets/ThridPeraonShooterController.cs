@@ -20,18 +20,24 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 0.5f;
     [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] private int currentAmmo;
     [SerializeField] private int maxAmmo = 50;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
     private Vector3 aimDir;
+    private bool isAiming;
     public static int key = 0;
+    public static int currentAmmo;
+
+    [SerializeField] private AudioSource shoots;
+    [SerializeField] private AudioSource outOFBullets;
+    [SerializeField] private AudioSource axeSwing;
 
     public ProgressBar Pb;
     public int health = 100;
 
     private UIManager uIManager;
+    public GameObject gameOver;
 
     private void Awake()
     {
@@ -57,7 +63,8 @@ public class ThridPeraonShooterController : MonoBehaviour
         }
         if (starterAssetsInputs.aimGun && WeaponSwitching.selectedWeapon == 0)
         {
-            aimVirtualCamera.gameObject.SetActive(true); ;
+            aimVirtualCamera.gameObject.SetActive(true);
+            isAiming = true;
             thirdPersonController.SetSensitivity(aimSensitivty);
             thirdPersonController.SetRotateOnMove(false);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
@@ -68,19 +75,25 @@ public class ThridPeraonShooterController : MonoBehaviour
 
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
 
-            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0 && currentAmmo > 0 && aimVirtualCamera.gameObject.activeInHierarchy)
+            if (starterAssetsInputs.shoot && WeaponSwitching.selectedWeapon == 0 && currentAmmo > 0 && isAiming && !PauseMenu.isPaused && !GetKeyL3.isSolving)
             {
                 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);                
+                GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);
+                shoots.Play();
                 projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
                 currentAmmo--;
                 uIManager.UpdateAmmo(currentAmmo);
                 starterAssetsInputs.shoot = false;
             }
+            else
+            {
+                outOFBullets.Play();
+            }
         }
         else
         {
             aimVirtualCamera.gameObject.SetActive(false);
+            isAiming = false;
             thirdPersonController.SetSensitivity(normalSensitivty);
             thirdPersonController.SetRotateOnMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
@@ -90,11 +103,7 @@ public class ThridPeraonShooterController : MonoBehaviour
         {
             aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
             animator.SetTrigger("attack");
-            /*Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
-
-            foreach (Collider enemy in hitEnemies) {
-                enemy.GetComponent<Enemy>().TakeDamage(40);
-            }*/
+            axeSwing.Play();
 
             starterAssetsInputs.attack = false;
         }
@@ -116,7 +125,9 @@ public class ThridPeraonShooterController : MonoBehaviour
 
         if (health <= 0)
         {
-            Debug.Log("Player is Dead!");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            gameOver.SetActive(true);
         }
     }
 }

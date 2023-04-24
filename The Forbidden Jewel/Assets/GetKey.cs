@@ -6,8 +6,6 @@ using UnityEngine;
 public class GetKey : MonoBehaviour
 {
     [SerializeField] GameObject key;
-    ThridPeraonShooterController ThridPeraonShooter;
-    private StarterAssetsInputs starterAssetsInputs;
     public GameObject Enemy;
     public int xPos;
     public int zPos;
@@ -15,12 +13,16 @@ public class GetKey : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        UIManager.numOfEnemies = 1;
         if(other.gameObject.layer == 6)
         {
             ThridPeraonShooterController.key = 1;
             Destroy(key);
             StartCoroutine(EnemyDrop());
-            Destroy(gameObject);
+            if (enemyCount == 1)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

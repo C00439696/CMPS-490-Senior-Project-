@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -11,8 +12,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject Enemies;
     [SerializeField] private GameObject Leave;
 
+    public static int numOfEnemies;
+
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
         if (WeaponSwitching.selectedWeapon == 0)
         {
             ammoTextKnife.SetActive(false);
@@ -34,7 +41,7 @@ public class UIManager : MonoBehaviour
             Enemies.SetActive(true);
         }
 
-        if (OpenDoor.enemieskilled == 1)
+        if (OpenDoor.enemieskilled == numOfEnemies)
         {
             Enemies.SetActive(false);
             Leave.SetActive(true);
@@ -51,6 +58,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateEnemies(int count)
     {
-        Enemies.GetComponent<Text>().text = "Eliminate all enemies before leaving: " + count + "/1";
+        Enemies.GetComponent<Text>().text = "Eliminate all enemies before leaving: " + count + "/" + numOfEnemies;
     }
 }
