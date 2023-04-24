@@ -10,6 +10,7 @@ public class CollectAmmo : MonoBehaviour
     public AudioSource moreAmmo;
 
     private UIManager uIManager;
+    private bool isReloading = false;
 
 
     private void OnTriggerEnter(Collider other)
@@ -20,7 +21,17 @@ public class CollectAmmo : MonoBehaviour
             {
                 ThridPeraonShooterController.currentAmmo += 5;
                 uIManager.UpdateAmmo(ThridPeraonShooterController.currentAmmo);
-                moreAmmo.Play();
+                if (!isReloading)
+                {
+                    moreAmmo.Play();
+                    isReloading = true;
+                }
+                else
+                {
+                    moreAmmo.Stop();
+                    isReloading = false;
+                }
+                isReloading = false;
                 theAmmo.SetActive(false);
             }
         }

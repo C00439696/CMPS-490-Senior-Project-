@@ -20,7 +20,7 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange = 0.5f;
     [SerializeField] private LayerMask enemyLayers;
-    [SerializeField] private int maxAmmo = 50;
+    [SerializeField] private int maxAmmo = 12;
 
     private ThirdPersonController thirdPersonController;
     private StarterAssetsInputs starterAssetsInputs;
@@ -32,6 +32,10 @@ public class ThridPeraonShooterController : MonoBehaviour
     [SerializeField] private AudioSource shoots;
     [SerializeField] private AudioSource outOFBullets;
     [SerializeField] private AudioSource axeSwing;
+
+    private bool isShooting = false;
+    private bool isOutOfBullets = false;
+    private bool isAxeSwinging = false;
 
     public ProgressBar Pb;
     public int health = 100;
@@ -79,7 +83,18 @@ public class ThridPeraonShooterController : MonoBehaviour
             {
                 aimDir = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 GameObject projectile = Instantiate(bullet, spawnBulletPosition.transform.position, spawnBulletPosition.transform.rotation);
-                shoots.Play();
+                if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                {
+                    shoots.Play();
+                    isShooting = true;
+                }
+                else
+                {
+                    shoots.Stop();
+                    isShooting = false;
+                }
+                isShooting = false;
+
                 projectile.GetComponent<Rigidbody>().AddForce(aimDir * 120, ForceMode.VelocityChange);
                 currentAmmo--;
                 uIManager.UpdateAmmo(currentAmmo);
@@ -87,7 +102,17 @@ public class ThridPeraonShooterController : MonoBehaviour
             }
             else
             {
-                outOFBullets.Play();
+                if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+                {
+                    outOFBullets.Play();
+                    isOutOfBullets = true;
+                }
+                else
+                {
+                    outOFBullets.Stop();
+                    isOutOfBullets = false;
+                }
+                isOutOfBullets = false;
             }
         }
         else
@@ -103,9 +128,24 @@ public class ThridPeraonShooterController : MonoBehaviour
         {
             aimDir = (mouseWorldPosition - axeTipPosition.position).normalized;
             animator.SetTrigger("attack");
-            axeSwing.Play();
+            if (!isShooting && !isOutOfBullets && !isAxeSwinging)
+            {
+                axeSwing.Play();
+                isAxeSwinging = true;
+            }
+            else
+            {
+                axeSwing.Stop();
+                isOutOfBullets = false;
+            }
+            isOutOfBullets = false;
 
             starterAssetsInputs.attack = false;
+        }
+
+        if (currentAmmo > 12)
+        {
+            currentAmmo = 12;
         }
     }
 
